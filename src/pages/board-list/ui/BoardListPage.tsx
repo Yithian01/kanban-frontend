@@ -16,6 +16,10 @@ export const BoardListPage = () => {
     setRefreshKey(prev => prev + 1);
   };
 
+  const handleDeleteSuccess = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return (
     <div style={pageContainerStyle}>
       <header style={headerStyle}>
@@ -28,7 +32,10 @@ export const BoardListPage = () => {
       </header>
 
       <main>
-        <BoardListWidget key={refreshKey} onRowClick={handleBoardClick} />
+        <BoardListWidget 
+            key={refreshKey} 
+            onRowClick={handleBoardClick} 
+            onDeleteSuccess={handleDeleteSuccess}/>
       </main>
     </div>
   );
