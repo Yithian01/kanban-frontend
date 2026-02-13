@@ -35,7 +35,8 @@ export const BoardListWidget = ({ onRowClick }: BoardListWidgetProps) => {
             <th style={thStyle}>프로젝트명</th>
             <th style={thStyle}>소유자</th>
             <th style={thStyle}>생성일</th>
-            <th style={thStyle}></th>
+            <th style={thStyle}>수정일</th>
+            <th style={thStyle}>이동하기</th>
           </tr>
         </thead>
         <tbody>
