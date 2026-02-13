@@ -1,5 +1,6 @@
 // src/entities/board/model/types.ts
 import type { ApiResponse } from "@/shared";
+import type { Section } from "@/entities/section";
 
 export interface BoardSummary {
   boardId: number;
@@ -7,20 +8,6 @@ export interface BoardSummary {
   creatorEmail: string; 
   createdAt: string; 
   updateAt: string; 
-}
-
-export interface Task {
-  taskId: number;
-  title: string;
-  content: string;
-  position: number;
-}
-
-export interface Section {
-  sectionId: number;
-  name: string;
-  position: number;
-  tasks: Task[];
 }
 
 export interface BoardDetail {

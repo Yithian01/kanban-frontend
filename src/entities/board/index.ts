@@ -2,8 +2,6 @@
 
 export type { 
   BoardSummary, 
-  Task, 
-  Section, 
   BoardDetail,
   BoardListResponse,
   BoardDetailResponse,

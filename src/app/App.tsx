@@ -8,6 +8,7 @@ import { LoginPage } from '@/pages/login/ui/LoginPage';
 import { SignupPage } from '@/pages/signup/ui/SignupPage';
 import { MyPage } from '@/pages/mypage';
 import { BoardListPage } from '@/pages/board-list';
+import { BoardDetailPage } from '@/pages/board-detail';
 
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
           {/* 앞으로 추가될 마이페이지, 장바구니 등등은 여기 한 줄만 추가하면 끝! */}
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/board" element={<BoardListPage />} />
+          <Route path="/board/:boardId" element={<BoardDetailPage />} />
         </Route>
 
         {/* 404 페이지 */}
