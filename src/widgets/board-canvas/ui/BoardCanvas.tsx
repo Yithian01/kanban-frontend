@@ -30,10 +30,12 @@ export const BoardCanvas = ({ sections }: BoardCanvasProps) => {
 };
 
 const canvasStyle: React.CSSProperties = {
-  width: '100%',
-  height: '100%',
-  overflowX: 'auto', 
-  padding: '20px 0',
+  display: 'flex',
+  gap: '20px',
+  padding: '24px',
+  overflowX: 'auto',
+  alignItems: 'flex-start',
+  height: 'calc(100vh - 100px)',
 };
 
 const sectionsWrapperStyle: React.CSSProperties = {
@@ -46,7 +48,7 @@ const sectionsWrapperStyle: React.CSSProperties = {
 
 const addSectionButtonStyle: React.CSSProperties = {
   minWidth: '320px',
-  height: '100px',
+  height: '500px',
   backgroundColor: '#f1f5f9',
   border: '2px dashed #cbd5e1',
   borderRadius: '12px',

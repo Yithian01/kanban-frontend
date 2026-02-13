@@ -41,7 +41,7 @@ const columnStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   border: '1px solid #e2e8f0',
-  height: 'fit-content', 
+  height: '80vh',
   maxHeight: '100%',
 };
 
@@ -78,12 +78,18 @@ const taskListStyle: React.CSSProperties = {
 
 const addButtonStyle: React.CSSProperties = {
   marginTop: '16px',
-  padding: '10px',
-  backgroundColor: 'transparent',
+  padding: '16px',
+  minHeight: '100px', 
+  
+  backgroundColor: '#f1f5f9', 
   border: '2px dashed #cbd5e1',
   borderRadius: '8px',
   color: '#64748b',
   cursor: 'pointer',
-  fontWeight: '500',
+  fontWeight: '600',
   transition: 'all 0.2s',
+  
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
