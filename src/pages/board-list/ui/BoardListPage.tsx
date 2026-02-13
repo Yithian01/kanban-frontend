@@ -59,14 +59,3 @@ const subtitleStyle: React.CSSProperties = {
   marginTop: '8px',
   fontSize: '1rem',
 };
-
-const addButtonStyle: React.CSSProperties = {
-  padding: '10px 20px',
-  backgroundColor: '#1e293b', // 홈 화면과 통일된 네이비
-  color: '#fff',
-  borderRadius: '8px',
-  border: 'none',
-  cursor: 'pointer',
-  fontWeight: '600',
-  transition: 'background-color 0.2s',
-};
