@@ -7,6 +7,7 @@ import { PrivateLayout } from '@/shared/index';
 import { LoginPage } from '@/pages/login/ui/LoginPage';
 import { SignupPage } from '@/pages/signup/ui/SignupPage';
 import { MyPage } from '@/pages/mypage';
+import { BoardListPage } from '@/pages/board-list';
 
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
         <Route element={<PrivateLayout />}>
           {/* 앞으로 추가될 마이페이지, 장바구니 등등은 여기 한 줄만 추가하면 끝! */}
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/board" element={<BoardListPage />} />
         </Route>
 
         {/* 404 페이지 */}
