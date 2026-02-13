@@ -1,12 +1,14 @@
 // src/widgets/board-list/ui/BoardListWidget.tsx
 import { useEffect, useState } from 'react';
 import { BoardRow, fetchMyBoards, type BoardSummary } from '@/entities/board';
+import { DeleteBoardButton } from '@/features/delete-board';
 
 interface BoardListWidgetProps {
   onRowClick: (id: number) => void;
+  onDeleteSuccess: () => void;
 }
 
-export const BoardListWidget = ({ onRowClick }: BoardListWidgetProps) => {
+export const BoardListWidget = ({ onRowClick, onDeleteSuccess }: BoardListWidgetProps) => {
   const [boards, setBoards] = useState<BoardSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,17 +38,23 @@ export const BoardListWidget = ({ onRowClick }: BoardListWidgetProps) => {
             <th style={thStyle}>소유자</th>
             <th style={thStyle}>생성일</th>
             <th style={thStyle}>수정일</th>
-            <th style={thStyle}>이동하기</th>
+            <th style={thStyle}>삭제하기</th>
           </tr>
         </thead>
         <tbody>
           {boards.length > 0 ? (
             boards.map((board) => (
-              <BoardRow 
-                key={board.boardId} 
-                board={board} 
-                onClick={onRowClick} 
-              />
+            <BoardRow 
+            key={board.boardId} 
+            board={board} 
+            onClick={onRowClick}
+            actionSlot={
+                <DeleteBoardButton 
+                boardId={board.boardId} 
+                onSuccess={onDeleteSuccess} 
+                />
+            }
+            />
             ))
           ) : (
             <tr>

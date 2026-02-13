@@ -4,9 +4,10 @@ import type { BoardSummary } from '@/entities/board';
 interface BoardRowProps {
   board: BoardSummary;
   onClick: (id: number) => void;
+  actionSlot?: React.ReactNode;
 }
 
-export const BoardRow = ({ board, onClick }: BoardRowProps) => {
+export const BoardRow = ({ board, onClick, actionSlot }: BoardRowProps) => {
   return (
     <tr 
       style={rowStyle} 
@@ -18,7 +19,9 @@ export const BoardRow = ({ board, onClick }: BoardRowProps) => {
       <td style={tdStyle}>{board.creatorEmail}</td>
       <td style={tdStyle}>{new Date(board.createdAt).toLocaleDateString()}</td>
       <td style={tdStyle}>{new Date(board.updateAt).toLocaleDateString()}</td>
-      <td style={{...tdStyle, textAlign: 'left', color: '#94a3b8'}}>이동하기 ➜</td>
+      <td style={tdStyle}>
+        {actionSlot} 
+      </td>
     </tr>
   );
 };

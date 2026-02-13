@@ -31,3 +31,10 @@ export const createBoard = async (title: string): Promise<number> => {
   const { data } = await apiInstance.post<BoardCeateResponse>('/kanban', { title });
   return data.data; // 생성된 보드 ID 반환
 };
+
+/**
+ * 칸반 보드 삭제 (DELETE /api/kanban/boards/{boardId}) 
+ */
+export const deleteBoard = async (boardId: number) => {
+  return await apiInstance.delete(`/kanban/boards/${boardId}`);
+};
