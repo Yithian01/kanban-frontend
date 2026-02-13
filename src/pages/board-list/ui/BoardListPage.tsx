@@ -1,33 +1,34 @@
 // src/pages/board-list/ui/BoardListPage.tsx
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BoardListWidget } from '@/widgets/board-list';
+import { CreateBoardButton } from '@/features/create-board';
 
 export const BoardListPage = () => {
   const navigate = useNavigate();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleBoardClick = (id: number) => {
     navigate(`/board/${id}`); 
   };
 
+  const handleCreateSuccess = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return (
     <div style={pageContainerStyle}>
-      {/* 헤더 섹션 */}
       <header style={headerStyle}>
         <div>
           <h1 style={titleStyle}>프로젝트 보드</h1>
           <p style={subtitleStyle}>관리 중인 모든 칸반 보드 리스트입니다.</p>
         </div>
-        <button 
-          style={addButtonStyle}
-          onClick={() => alert('새 보드 생성 기능 준비 중!')}
-        >
-          + 새 보드 만들기
-        </button>
+        
+        <CreateBoardButton onSuccess={handleCreateSuccess} />
       </header>
 
-      {/* 조립된 위젯 배치 */}
       <main>
-        <BoardListWidget onRowClick={handleBoardClick} />
+        <BoardListWidget key={refreshKey} onRowClick={handleBoardClick} />
       </main>
     </div>
   );

@@ -6,12 +6,14 @@ export type {
   Section, 
   BoardDetail,
   BoardListResponse,
-  BoardDetailResponse
+  BoardDetailResponse,
+  BoardCeateResponse
 } from './model/types';
 
 export { 
   fetchMyBoards, 
-  fetchBoardDetail 
+  fetchBoardDetail,
+  createBoard
 } from './api/boardApi';
 
 export { BoardRow } from './ui/BoardRow';

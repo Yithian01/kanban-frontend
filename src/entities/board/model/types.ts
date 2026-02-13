@@ -31,3 +31,4 @@ export interface BoardDetail {
 
 export type BoardListResponse = ApiResponse<BoardSummary[]>; 
 export type BoardDetailResponse = ApiResponse<BoardDetail>;
+export type BoardCeateResponse = ApiResponse<number>;
