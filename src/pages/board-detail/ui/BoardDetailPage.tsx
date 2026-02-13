@@ -11,23 +11,23 @@ export const BoardDetailPage = () => {
   const [board, setBoard] = useState<BoardDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  // 💡 데이터 로드 로직을 함수로 분리 (onSuccess 시 재호출 위함)
+  const loadBoard = async () => {
     if (!boardId) return;
+    try {
+      const data = await fetchBoardDetail(Number(boardId));
+      setBoard(data);
+    } catch (error) {
+      alert('보드를 불러오지 못했습니다.');
+      navigate('/board'); // 목록 경로 확인 (목록 경로가 /board 라면)
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const loadBoard = async () => {
-      try {
-        const data = await fetchBoardDetail(Number(boardId));
-        setBoard(data);
-      } catch (error) {
-        alert('보드를 불러오지 못했습니다.');
-        navigate('/board');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
+  useEffect(() => {
     loadBoard();
-  }, [boardId, navigate]);
+  }, [boardId]);
 
   if (isLoading) return <div>로딩 중...</div>;
   if (!board) return <div>보드를 찾을 수 없습니다.</div>;
@@ -39,9 +39,13 @@ export const BoardDetailPage = () => {
         <h1 style={titleStyle}>{board.title}</h1>
       </header>
 
-      {/* 💡 핵심: 캔버스 위젯 배치 */}
       <main style={canvasAreaStyle}>
-        <BoardCanvas sections={board.sections} />
+        {/* 💡 boardId와 새로고침 함수를 Props로 전달 */}
+        <BoardCanvas 
+          boardId={Number(boardId)} 
+          sections={board.sections} 
+          onRefresh={loadBoard} 
+        />
       </main>
     </div>
   );

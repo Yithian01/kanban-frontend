@@ -6,7 +6,7 @@ interface SectionColumnProps {
   sectionId: number;
   name: string;
   tasks: Task[];
-  onAddTask?: (sectionId: number) => void; // 할 일 추가 기능 (추후 구현)
+  onAddTask?: (sectionId: number) => void;
 }
 
 export const SectionColumn = ({ sectionId, name, tasks, onAddTask }: SectionColumnProps) => {
@@ -55,6 +55,7 @@ const headerStyle: React.CSSProperties = {
 const titleStyle: React.CSSProperties = {
   fontSize: '1.25rem',
   fontWeight: '700',
+  height:'50px',
   color: '#334155',
   margin: 0,
 };
