@@ -2,12 +2,13 @@
 import { TaskCard } from '@/entities/task'; 
 import type { Task } from '@/entities/task'; 
 import { DeleteSectionButton } from '@/features/delete-section'
+import { EditableSectionName } from '@/features/update-section';
 
 interface SectionColumnProps {
   boardId: number; 
   sectionId: number;
   name: string;
-  tasks: Task[];
+  tasks: Task[];  
   onAddTask?: (sectionId: number) => void;
   onDeleteSuccess: () => void;
 }
@@ -23,8 +24,13 @@ export const SectionColumn = ({
   return (
     <div style={columnStyle}>
       <div style={headerStyle}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <h2 style={titleStyle}>{name}</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+          <EditableSectionName 
+            boardId={boardId} 
+            sectionId={sectionId} 
+            initialName={name}
+            onUpdateSuccess={(newName) => console.log(`${newName}으로 변경됨`)}
+          />
           <span style={countStyle}>{tasks.length}</span>
         </div>
 
@@ -67,14 +73,6 @@ const headerStyle: React.CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: '16px',
-};
-
-const titleStyle: React.CSSProperties = {
-  fontSize: '1.25rem',
-  fontWeight: '700',
-  height:'50px',
-  color: '#334155',
-  margin: 0,
 };
 
 const countStyle: React.CSSProperties = {

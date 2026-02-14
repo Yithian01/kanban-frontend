@@ -8,3 +8,7 @@ export const createSection = async (boardId: number, name: string): Promise<void
 export const deleteSection = async (boardId: number, sectionId: number): Promise<void> => {
   await apiInstance.delete(`/kanban/boards/${boardId}/sections/${sectionId}`);
 };
+
+export const renameSection = async (boardId: number, sectionId: number, name: string): Promise<void> => {
+  await apiInstance.post(`/kanban/boards/${boardId}/sections/${sectionId}`, {name});
+};
