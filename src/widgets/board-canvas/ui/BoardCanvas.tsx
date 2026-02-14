@@ -16,9 +16,11 @@ export const BoardCanvas = ({ boardId, sections, onRefresh }: BoardCanvasProps) 
         {sections.map(section => (
           <SectionColumn
             key={section.sectionId}
+            boardId = {boardId}
             sectionId={section.sectionId}
             name={section.name}
             tasks={section.tasks}
+            onDeleteSuccess={onRefresh}
           />
         ))}
 

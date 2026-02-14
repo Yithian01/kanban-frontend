@@ -1,31 +1,48 @@
 // src/entities/section/ui/SectionColumn.tsx
 import { TaskCard } from '@/entities/task'; 
 import type { Task } from '@/entities/task'; 
+import { DeleteSectionButton } from '@/features/delete-section'
 
 interface SectionColumnProps {
+  boardId: number; 
   sectionId: number;
   name: string;
   tasks: Task[];
   onAddTask?: (sectionId: number) => void;
+  onDeleteSuccess: () => void;
 }
 
-export const SectionColumn = ({ sectionId, name, tasks, onAddTask }: SectionColumnProps) => {
+export const SectionColumn = ({ 
+  boardId, 
+  sectionId, 
+  name, 
+  tasks, 
+  onAddTask, 
+  onDeleteSuccess 
+}: SectionColumnProps) => {
   return (
     <div style={columnStyle}>
-      {/* 💡 섹션 헤더 */}
       <div style={headerStyle}>
-        <h2 style={titleStyle}>{name}</h2>
-        <span style={countStyle}>{tasks.length}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h2 style={titleStyle}>{name}</h2>
+          <span style={countStyle}>{tasks.length}</span>
+        </div>
+
+        {/* 2. 기존 버튼 대신 커스텀 삭제 버튼 컴포넌트 삽입 */}
+        <DeleteSectionButton 
+          boardId={boardId}
+          sectionId={sectionId}
+          sectionName={name}
+          onSuccess={onDeleteSuccess} 
+        />
       </div>
 
-      {/* 💡 태스크 카드 목록 */}
       <div style={taskListStyle}>
         {tasks.map(task => (
           <TaskCard key={task.taskId} task={task} />
         ))}
       </div>
 
-      {/* 💡 추가 버튼 (간단히 UI만) */}
       <button style={addButtonStyle} onClick={() => onAddTask?.(sectionId)}>
         + 카드 추가
       </button>

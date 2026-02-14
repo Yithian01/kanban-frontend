@@ -11,7 +11,6 @@ export const BoardDetailPage = () => {
   const [board, setBoard] = useState<BoardDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 💡 데이터 로드 로직을 함수로 분리 (onSuccess 시 재호출 위함)
   const loadBoard = async () => {
     if (!boardId) return;
     try {
@@ -19,7 +18,7 @@ export const BoardDetailPage = () => {
       setBoard(data);
     } catch (error) {
       alert('보드를 불러오지 못했습니다.');
-      navigate('/board'); // 목록 경로 확인 (목록 경로가 /board 라면)
+      navigate('/board'); 
     } finally {
       setIsLoading(false);
     }
