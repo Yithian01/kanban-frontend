@@ -1,15 +1,14 @@
-// src/features/update-section/ui/EditableSectionName.tsx
+// src/features/rename-board/ui/EditableBoardName.tsx
 import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
-import { renameSection } from '@/entities/section/api/sectionApi';
+import { renameBoard } from '@/entities/board';
 
 interface Props {
   boardId: number;
-  sectionId: number;
   initialName: string;
-  onUpdateSuccess?: (newName: string) => void;
+  onUpdateSuccess?: () => void;
 }
 
-export const EditableSectionName = ({ boardId, sectionId, initialName, onUpdateSuccess }: Props) => {
+export const EditableBoardName = ({ boardId, initialName, onUpdateSuccess }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(initialName);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -20,8 +19,6 @@ export const EditableSectionName = ({ boardId, sectionId, initialName, onUpdateS
 
   const handleUpdate = async () => {
     const trimmedValue = value.trim();
-    
-    // 값이 비어있거나 기존과 같으면 취소
     if (!trimmedValue || trimmedValue === initialName) {
       setValue(initialName);
       setIsEditing(false);
@@ -29,11 +26,11 @@ export const EditableSectionName = ({ boardId, sectionId, initialName, onUpdateS
     }
 
     try {
-      await renameSection(boardId, sectionId, trimmedValue);
+      await renameBoard(boardId, trimmedValue);
       setIsEditing(false);
-      onUpdateSuccess?.(trimmedValue);
+      onUpdateSuccess?.(); 
     } catch (error) {
-      alert('이름 수정에 실패했습니다.');
+      alert('보드 이름 수정에 실패했습니다.');
       setValue(initialName);
       setIsEditing(false);
     }
@@ -61,32 +58,29 @@ export const EditableSectionName = ({ boardId, sectionId, initialName, onUpdateS
   }
 
   return (
-    <h2 style={clickableTitleStyle} onClick={() => setIsEditing(true)}>
+    <h1 
+      style={titleStyle} 
+      onDoubleClick={() => setIsEditing(true)} 
+      title="더블 클릭하여 수정"
+    >
       {value}
-    </h2>
+    </h1>
   );
 };
 
-const clickableTitleStyle: React.CSSProperties = {
-  fontSize: '1.25rem',
-  fontWeight: '700',
-  color: '#334155',
-  margin: 0,
+const titleStyle: React.CSSProperties = {
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
   cursor: 'pointer',
   padding: '4px 8px',
   borderRadius: '4px',
-  transition: 'background-color 0.2s',
-  backgroundColor: 'transparent',
 };
 
 const editInputStyle: React.CSSProperties = {
-  fontSize: '1.25rem',
-  fontWeight: '700',
-  color: '#334155',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
   border: '2px solid #3b82f6',
   borderRadius: '4px',
   outline: 'none',
   padding: '2px 6px',
-  width: '100%',
-  backgroundColor: '#fff',
 };

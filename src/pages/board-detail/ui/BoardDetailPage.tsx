@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchBoardDetail } from '@/entities/board';
 import type { BoardDetail } from '@/entities/board';
 import { BoardCanvas } from '@/widgets/board-canvas';
-import { RenameBoardButton } from '@/features/rename-board';
+import { EditableBoardName } from '@/features/rename-board';
 
 export const BoardDetailPage = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -39,13 +39,11 @@ export const BoardDetailPage = () => {
         ← 목록으로
       </button>
 
-      <h1 style={titleStyle}>{board.title}</h1>
-
-      <RenameBoardButton
-      boardId={Number(boardId)}
-      currentTitle={board.title}
-      onSuccess={loadBoard}
-      />
+      <EditableBoardName 
+        boardId={Number(boardId)} 
+        initialName={board.title} 
+        onUpdateSuccess={loadBoard} 
+        />
 
     </header>
 
@@ -63,6 +61,5 @@ export const BoardDetailPage = () => {
 
 const containerStyle: React.CSSProperties = { height: '100vh', display: 'flex', flexDirection: 'column' };
 const headerStyle: React.CSSProperties = { padding: '20px', display: 'flex', alignItems: 'center', gap: '20px' };
-const titleStyle: React.CSSProperties = { fontSize: '1.5rem', fontWeight: 'bold' };
 const backButtonStyle: React.CSSProperties = { cursor: 'pointer', background: 'none', border: 'none', color: '#64748b' };
 const canvasAreaStyle: React.CSSProperties = { flex: 1, overflow: 'hidden' };

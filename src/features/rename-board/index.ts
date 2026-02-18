@@ -1,2 +1,2 @@
-export {RenameBoardButton} from './ui/RenameBoardButton';
+export {EditableBoardName} from './ui/EditableBoardName';
 export {renameBoard} from './api/renameBoard';

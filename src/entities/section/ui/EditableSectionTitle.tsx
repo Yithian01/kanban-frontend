@@ -6,7 +6,7 @@ interface Props {
   boardId: number;
   sectionId: number;
   initialName: string;
-  onSuccess?: () => void; // API 성공 후 콜백 (예: React Query refetch)
+  onSuccess?: () => void;
 }
 
 export const EditableSectionTitle = ({ boardId, sectionId, initialName, onSuccess }: Props) => {
@@ -30,7 +30,7 @@ export const EditableSectionTitle = ({ boardId, sectionId, initialName, onSucces
     try {
       await renameSection(boardId, sectionId, title);
       setIsEditing(false);
-      onSuccess?.(); // 성공 콜백 호출
+      onSuccess?.(); 
     } catch (error) {
       console.error('Failed to rename section', error);
       alert('섹션 이름 변경에 실패했습니다.');
