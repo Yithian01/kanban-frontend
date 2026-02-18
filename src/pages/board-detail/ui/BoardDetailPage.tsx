@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchBoardDetail } from '@/entities/board';
 import type { BoardDetail } from '@/entities/board';
 import { BoardCanvas } from '@/widgets/board-canvas';
+import { RenameBoardButton } from '@/features/rename-board';
 
 export const BoardDetailPage = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -33,17 +34,27 @@ export const BoardDetailPage = () => {
 
   return (
     <div style={containerStyle}>
-      <header style={headerStyle}>
-        <button onClick={() => navigate('/board')} style={backButtonStyle}>← 목록으로</button>
-        <h1 style={titleStyle}>{board.title}</h1>
-      </header>
+    <header style={headerStyle}>
+      <button onClick={() => navigate('/board')} style={backButtonStyle}>
+        ← 목록으로
+      </button>
+
+      <h1 style={titleStyle}>{board.title}</h1>
+
+      <RenameBoardButton
+      boardId={Number(boardId)}
+      currentTitle={board.title}
+      onSuccess={loadBoard}
+      />
+
+    </header>
 
       <main style={canvasAreaStyle}>
         {/* 💡 boardId와 새로고침 함수를 Props로 전달 */}
         <BoardCanvas 
           boardId={Number(boardId)} 
           sections={board.sections} 
-          onRefresh={loadBoard} 
+          onRefresh={loadBoard}
         />
       </main>
     </div>
