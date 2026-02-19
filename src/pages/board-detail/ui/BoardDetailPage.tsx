@@ -39,11 +39,18 @@ export const BoardDetailPage = () => {
         ← 목록으로
       </button>
 
-      <EditableBoardName 
-        boardId={Number(boardId)} 
-        initialName={board.title} 
-        onUpdateSuccess={loadBoard} 
-        />
+      <div style={nameAreaStyle}>
+          <EditableBoardName 
+            boardId={Number(boardId)} 
+            initialName={board.title} 
+            onUpdateSuccess={loadBoard} 
+          />
+          {/* 🌟 회색 반투명 가이드 라인 추가 */}
+          <span style={guideTextStyle}>
+            변경 시 더블클릭
+          </span>
+        </div>
+        
 
     </header>
 
@@ -59,7 +66,11 @@ export const BoardDetailPage = () => {
   );
 };
 
+
+
+const guideTextStyle: React.CSSProperties = { fontSize: '0.75rem', color: '#94a3b8', backgroundColor: '#f1f5f9', padding: '2px 8px', borderRadius: '12px', opacity: 0.8, userSelect: 'none',fontWeight: '400'};
+const nameAreaStyle: React.CSSProperties = { display: 'flex', alignItems: 'baseline', gap: '12px'};
+const headerStyle: React.CSSProperties = { padding: '20px 40px', display: 'flex', alignItems: 'center', gap: '24px', borderBottom: '1px solid #e2e8f0', backgroundColor: 'white'};
 const containerStyle: React.CSSProperties = { height: '100vh', display: 'flex', flexDirection: 'column' };
-const headerStyle: React.CSSProperties = { padding: '20px', display: 'flex', alignItems: 'center', gap: '20px' };
 const backButtonStyle: React.CSSProperties = { cursor: 'pointer', background: 'none', border: 'none', color: '#64748b' };
 const canvasAreaStyle: React.CSSProperties = { flex: 1, overflow: 'hidden' };

@@ -26,7 +26,7 @@ export const Header = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
         {/* 네비게이션: 가장 자주 쓰이는 메뉴 구성 */}
         <nav style={{ display: 'flex', gap: '16px' }}>
-          <button onClick={() => navigate('/dashboard')} style={navButtonStyle}>대시보드</button>
+          <button onClick={() => navigate('/board')} style={navButtonStyle}>대시보드</button>
           <button onClick={() => navigate('/settings')} style={navButtonStyle}>설정</button>
         </nav>
 
