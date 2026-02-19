@@ -22,6 +22,8 @@ export const SectionColumn = ({
   onRefreshBoard, 
   onDeleteSuccess 
 }: SectionColumnProps) => {
+  console.log(`Section [${name}]의 Tasks:`, tasks);
+
   return (
     <div style={columnStyle}>
       <div style={headerStyle}>
@@ -46,7 +48,13 @@ export const SectionColumn = ({
 
       <div style={taskListStyle}>
         {tasks.map(task => (
-          <TaskCard key={task.taskId} task={task} />
+          <TaskCard 
+            key={task.taskId} 
+            task={task}
+            boardId={boardId}
+            sectionId={sectionId}
+            onDeleteSuccess={onRefreshBoard}
+          />
         ))}
       </div>
 
