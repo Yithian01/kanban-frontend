@@ -42,13 +42,15 @@ export const DeleteSectionButton = ({ boardId, sectionId, sectionName, onSuccess
       <button
         style={{
           ...deleteTriggerButtonStyle,
-          backgroundColor: isTriggerHover ? '#fef2f2' : 'transparent', 
+          // 호버 시 배경색만 살짝 변하도록 설정
+          backgroundColor: isTriggerHover ? '#fee2e2' : 'transparent', 
         }}
         onMouseEnter={() => setIsTriggerHover(true)}
         onMouseLeave={() => setIsTriggerHover(false)}
         onClick={() => setIsOpen(true)}
+        title="섹션 삭제" // 마우스 올리면 툴팁이 나옵니다.
       >
-        삭제
+        🗑️
       </button>
 
       {isOpen && (
@@ -97,17 +99,19 @@ export const DeleteSectionButton = ({ boardId, sectionId, sectionName, onSuccess
   );
 };
 
-// --- 스타일 정의 (변경 및 추가된 부분) ---
-
 const deleteTriggerButtonStyle: React.CSSProperties = {
-  padding: '6px 12px',
+  border: 'none',
   backgroundColor: 'transparent',
-  color: '#ef4444',
-  border: '1px solid #ef4444',
-  borderRadius: '4px',
+  width: '32px',
+  height: '32px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '50%',
   cursor: 'pointer',
-  fontSize: '0.875rem',
+  fontSize: '1.2rem', 
   transition: 'all 0.2s ease',
+  outline: 'none', 
 };
 
 const confirmDeleteButtonStyle: React.CSSProperties = { 
@@ -133,7 +137,7 @@ const modalOverlayStyle: React.CSSProperties = {
   left: 0,
   right: 0,
   bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)', // 어두운 배경
+  backgroundColor: 'rgba(0, 0, 0, 0.5)', 
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
