@@ -1,0 +1,6 @@
+// src/entities/task/api/taskApi.ts
+import { apiInstance } from '@/shared/api';
+
+export const createTask = async (boardId: number, sectionId: number, title: string, content: string): Promise<void> => {
+  await apiInstance.post(`/kanban/boards/${boardId}/sections/${sectionId}/tasks`, { title, content });
+};

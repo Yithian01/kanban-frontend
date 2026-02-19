@@ -3,13 +3,14 @@ import { TaskCard } from '@/entities/task';
 import type { Task } from '@/entities/task'; 
 import { DeleteSectionButton } from '@/features/delete-section'
 import { EditableSectionName } from '@/features/update-section';
+import { CreateTaskForm } from '@/features/create-task';
 
 interface SectionColumnProps {
   boardId: number; 
   sectionId: number;
   name: string;
   tasks: Task[];  
-  onAddTask?: (sectionId: number) => void;
+  onRefreshBoard: () => void;
   onDeleteSuccess: () => void;
 }
 
@@ -18,7 +19,7 @@ export const SectionColumn = ({
   sectionId, 
   name, 
   tasks, 
-  onAddTask, 
+  onRefreshBoard, 
   onDeleteSuccess 
 }: SectionColumnProps) => {
   return (
@@ -29,7 +30,7 @@ export const SectionColumn = ({
             boardId={boardId} 
             sectionId={sectionId} 
             initialName={name}
-            onUpdateSuccess={(newName) => console.log(`${newName}으로 변경됨`)}
+            onUpdateSuccess={onRefreshBoard}
           />
           <span style={countStyle}>{tasks.length}</span>
         </div>
@@ -49,9 +50,11 @@ export const SectionColumn = ({
         ))}
       </div>
 
-      <button style={addButtonStyle} onClick={() => onAddTask?.(sectionId)}>
-        + 카드 추가
-      </button>
+      <CreateTaskForm 
+        boardId={boardId} 
+        sectionId={sectionId} 
+        onSuccess={onRefreshBoard}
+      />
     </div>
   );
 };
@@ -90,22 +93,4 @@ const taskListStyle: React.CSSProperties = {
   gap: '12px',
   overflowY: 'auto', 
   paddingRight: '4px',
-};
-
-const addButtonStyle: React.CSSProperties = {
-  marginTop: '16px',
-  padding: '16px',
-  minHeight: '100px', 
-  
-  backgroundColor: '#f1f5f9', 
-  border: '2px dashed #cbd5e1',
-  borderRadius: '8px',
-  color: '#64748b',
-  cursor: 'pointer',
-  fontWeight: '600',
-  transition: 'all 0.2s',
-  
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
 };
