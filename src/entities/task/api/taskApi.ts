@@ -9,6 +9,6 @@ export const deleteTask = async (boardId: number, sectionId: number, taskId: num
   await apiInstance.delete(`/kanban/boards/${boardId}/sections/${sectionId}/tasks/${taskId}`);
 };
 
-export const renameTask = async (boardId: number, sectionId: number, taskId: number, title: string, content: string): Promise<void> => {
-  await apiInstance.post(`/kanban/boards/${boardId}/sections/${sectionId}/tasks/${taskId}`, { title, content });
+export const updateTask = async (boardId: number, sectionId: number, taskId: number, title: string, content: string): Promise<void> => {
+  await apiInstance.post(`/kanban/boards/${boardId}/sections/${sectionId}/tasks/${taskId}/update`, { title, content });
 };
