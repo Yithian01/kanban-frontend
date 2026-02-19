@@ -1,9 +1,10 @@
 // src/entities/section/ui/SectionColumn.tsx
-import { TaskCard } from '@/entities/task'; 
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import type { Task } from '@/entities/task'; 
 import { DeleteSectionButton } from '@/features/delete-section'
 import { EditableSectionName } from '@/features/update-section';
 import { CreateTaskForm } from '@/features/create-task';
+import { SortableTask } from '@/entities/task';
 
 interface SectionColumnProps {
   boardId: number; 
@@ -12,6 +13,7 @@ interface SectionColumnProps {
   tasks: Task[];  
   onRefreshBoard: () => void;
   onDeleteSuccess: () => void;
+  dragHandleProps?: any; 
 }
 
 export const SectionColumn = ({ 
@@ -20,13 +22,15 @@ export const SectionColumn = ({
   name, 
   tasks, 
   onRefreshBoard, 
-  onDeleteSuccess 
+  onDeleteSuccess,
+  dragHandleProps // 🌟 추가
 }: SectionColumnProps) => {
 
   return (
     <div style={columnStyle}>
-      <div style={headerStyle}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+      {/* 🌟 헤더 부분에만 드래그 핸들을 적용하여 섹션 이동을 제한함 */}
+      <div style={headerStyle} {...dragHandleProps}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, cursor: 'grab' }}>
           <EditableSectionName 
             boardId={boardId} 
             sectionId={sectionId} 
@@ -36,7 +40,6 @@ export const SectionColumn = ({
           <span style={countStyle}>{tasks.length}</span>
         </div>
 
-        {/* 2. 기존 버튼 대신 커스텀 삭제 버튼 컴포넌트 삽입 */}
         <DeleteSectionButton 
           boardId={boardId}
           sectionId={sectionId}
@@ -46,16 +49,21 @@ export const SectionColumn = ({
       </div>
 
       <div style={taskListStyle}>
-        {tasks.map(task => (
-          <TaskCard 
-            key={task.taskId} 
-            task={task}
-            boardId={boardId}
-            sectionId={sectionId}
-            onDeleteSuccess={onRefreshBoard}
-            onUpdateSuccess={onRefreshBoard}
-          />
-        ))}
+        <SortableContext 
+          id={String(sectionId)} 
+          items={tasks.map(t => t.taskId)} 
+          strategy={verticalListSortingStrategy}
+        >
+          {tasks.map(task => (
+            <SortableTask 
+              key={task.taskId} 
+              task={task}
+              boardId={boardId}
+              sectionId={sectionId}
+              onRefreshBoard={onRefreshBoard}
+            />
+          ))}
+        </SortableContext>
       </div>
 
       <CreateTaskForm 
@@ -66,6 +74,8 @@ export const SectionColumn = ({
     </div>
   );
 };
+
+// --- 스타일 정의 (기존과 동일) ---
 
 const columnStyle: React.CSSProperties = {
   width: '320px',
@@ -84,6 +94,7 @@ const headerStyle: React.CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: '16px',
+  // 핸들 영역임을 시각적으로 보여주기 위해 커서 추가 가능
 };
 
 const countStyle: React.CSSProperties = {
@@ -101,4 +112,5 @@ const taskListStyle: React.CSSProperties = {
   gap: '12px',
   overflowY: 'auto', 
   paddingRight: '4px',
+  flex: 1, // 리스트가 영역을 꽉 채우도록 설정
 };

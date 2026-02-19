@@ -1,12 +1,13 @@
-// src/widgets/board-canvas/ui/BoardCanvas.tsx
+import { useState } from 'react';
 import { 
   DndContext, 
   PointerSensor, 
   useSensor, 
   useSensors, 
-  closestCorners,
+  closestCenter, 
+  DragOverlay,
 } from '@dnd-kit/core';
-import type { DragEndEvent } from '@dnd-kit/core';
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 import { 
   SortableContext, 
   horizontalListSortingStrategy 
@@ -15,6 +16,7 @@ import { SortableSection } from '@/entities/section/ui/SortableSection';
 import { updatePositionSection } from '@/entities/section'; 
 import { CreateSectionButton } from '@/features/create-section';
 import type { Section } from '@/entities/section';
+import { moveTask, TaskCard } from '@/entities/task';
 
 interface BoardCanvasProps {
   boardId: number;
@@ -23,28 +25,67 @@ interface BoardCanvasProps {
 }
 
 export const BoardCanvas = ({ boardId, sections, onRefresh }: BoardCanvasProps) => {
-  // 마우스 클릭 시에만 드래그가 작동하도록 센서 설정 (입력창 클릭 방해 방지)
+  const [activeTask, setActiveTask] = useState<any>(null);
+
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 3 } })
   );
+
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    if (active.data.current?.type === 'Task') {
+      setActiveTask(active.data.current.task);
+    }
+  };
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
-    if (!over || active.id === over.id) return;
+    setActiveTask(null);
 
-    // active.id를 number로 캐스팅하거나 타입을 맞춤
+    if (!over) return;
+
     const activeId = Number(active.id);
-    const overId = Number(over.id);
+    const overId = over.id;
 
-    const targetIndex = sections.findIndex((s) => s.sectionId === overId);
+    if (active.data.current?.type === 'Task') {
+      let targetSectionId: number | null = null;
+      let targetIndex: number = 0;
 
-    if (targetIndex !== -1) {
-      try {
-        await updatePositionSection(boardId, activeId, targetIndex);
-        onRefresh();
-      } catch (error) {
-        console.error('순서 변경 실패:', error);
-        alert('순서 변경에 실패했습니다.');
+      const targetSection = sections.find(s => 
+        s.tasks.some(t => t.taskId === Number(overId)) || 
+        s.sectionId === Number(overId)
+      );
+
+      if (targetSection) {
+        targetSectionId = targetSection.sectionId;
+        const taskIndex = targetSection.tasks.findIndex(t => t.taskId === Number(overId));
+        
+        if (taskIndex !== -1) {
+          targetIndex = taskIndex;
+        } else {
+          targetIndex = targetSection.tasks.length;
+        }
+
+        try {
+          await moveTask(boardId, activeId, targetSectionId, targetIndex);
+          onRefresh();
+        } catch (error) {
+          console.error('태스크 이동 실패:', error);
+        }
+      }
+      return;
+    }
+
+    if (active.id !== over.id) {
+      const targetIndex = sections.findIndex((s) => s.sectionId === Number(overId));
+      if (targetIndex !== -1) {
+        try {
+          await updatePositionSection(boardId, activeId, targetIndex);
+          onRefresh();
+        } catch (error) {
+          console.error('섹션 순서 변경 실패:', error);
+          alert('순서 변경에 실패했습니다.');
+        }
       }
     }
   };
@@ -52,12 +93,12 @@ export const BoardCanvas = ({ boardId, sections, onRefresh }: BoardCanvasProps) 
   return (
     <DndContext 
       sensors={sensors} 
-      collisionDetection={closestCorners} 
+      collisionDetection={closestCenter} 
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
       <div style={canvasStyle}>
         <div style={sectionsWrapperStyle}>
-          {/* SortableContext가 아이템들을 관리 */}
           <SortableContext 
             items={sections.map(s => s.sectionId)} 
             strategy={horizontalListSortingStrategy}
@@ -74,10 +115,23 @@ export const BoardCanvas = ({ boardId, sections, onRefresh }: BoardCanvasProps) 
               />
             ))}
           </SortableContext>
-
           <CreateSectionButton boardId={boardId} onSuccess={onRefresh} />
         </div>
       </div>
+
+      <DragOverlay>
+        {activeTask ? (
+          <div style={{ width: '320px', opacity: 0.8 }}>
+            <TaskCard 
+              task={activeTask} 
+              boardId={boardId} 
+              sectionId={0} 
+              onDeleteSuccess={() => {}} 
+              onUpdateSuccess={() => {}} 
+            />
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 };
