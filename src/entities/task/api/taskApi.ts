@@ -12,3 +12,7 @@ export const deleteTask = async (boardId: number, sectionId: number, taskId: num
 export const updateTask = async (boardId: number, sectionId: number, taskId: number, title: string, content: string): Promise<void> => {
   await apiInstance.post(`/kanban/boards/${boardId}/sections/${sectionId}/tasks/${taskId}/update`, { title, content });
 };
+
+export const moveTask = async (boardId: number, taskId: number, targetSectionId: number, targetIndex: number): Promise<void> => {
+  await apiInstance.post(`/kanban/boards/${boardId}/tasks/${taskId}/move`, { targetSectionId, targetIndex });
+};
