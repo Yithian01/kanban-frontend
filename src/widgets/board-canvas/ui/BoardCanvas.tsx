@@ -20,6 +20,7 @@ export const BoardCanvas = ({ boardId, sections, onRefresh }: BoardCanvasProps) 
             sectionId={section.sectionId}
             name={section.name}
             tasks={section.tasks}
+            onRefreshBoard={onRefresh} 
             onDeleteSuccess={onRefresh}
           />
         ))}
