@@ -22,7 +22,6 @@ export const SectionColumn = ({
   onRefreshBoard, 
   onDeleteSuccess 
 }: SectionColumnProps) => {
-  console.log(`Section [${name}]의 Tasks:`, tasks);
 
   return (
     <div style={columnStyle}>
@@ -54,6 +53,7 @@ export const SectionColumn = ({
             boardId={boardId}
             sectionId={sectionId}
             onDeleteSuccess={onRefreshBoard}
+            onUpdateSuccess={onRefreshBoard}
           />
         ))}
       </div>
