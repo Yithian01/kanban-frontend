@@ -137,18 +137,19 @@ export const BoardCanvas = ({ boardId, sections, onRefresh }: BoardCanvasProps) 
 };
 
 const canvasStyle: React.CSSProperties = {
+  flex: 1,             
+  overflowX: 'auto',    
+  overflowY: 'hidden',   
   display: 'flex',
-  gap: '20px',
-  padding: '24px',
-  overflowX: 'auto',
-  alignItems: 'flex-start',
-  height: 'calc(100vh - 100px)',
+  backgroundColor: '#ffffff',
+  height: '100%',         
 };
 
 const sectionsWrapperStyle: React.CSSProperties = {
   display: 'flex',
-  gap: '24px',
+  gap: '24px',          
+  padding: '24px',       
   alignItems: 'flex-start',
-  padding: '0 20px',
-  minWidth: 'min-content', 
+  height: '100%', 
+  flexShrink: 0, 
 };
